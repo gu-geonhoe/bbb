@@ -24,6 +24,7 @@ public interface QuestionMapper {
         //questionPost에서 받은 tagValue 리스트의 값들을 읽어 해당하는 태그 정보 가져오기
 
         question.setUser(user);  // question 객체에 userid에 해당하는 유저 정보 대입
+        question.setUserName(user.getUserName());
         question.setQuestionTitle(questionPatchDto.getQuestionTitle()); // questionpostdto의 제목 받아오기
         question.setContent(questionPatchDto.getContent()); //questionpostdto의 내용 받아오기
        /* //question 객체에 선택된 태그들 모두 담기
@@ -69,6 +70,7 @@ Note: Recompile with -Xlint:unchecked for details.
         //questionPost에서 받은 tagValue 리스트의 값들을 읽어 해당하는 태그 정보 가져오기
 
         question.setUser(user);  // question 객체에 userid에 해당하는 유저 정보 대입
+        question.setUserName(user.getUserName());
         question.setQuestionTitle(questionPostDto.getQuestionTitle()); // questionpostdto의 제목 받아오기
         question.setContent(questionPostDto.getContent()); //questionpostdto의 내용 받아오기
        /* //question 객체에 선택된 태그들 모두 담기

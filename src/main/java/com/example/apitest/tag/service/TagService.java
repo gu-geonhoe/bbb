@@ -2,8 +2,6 @@ package com.example.apitest.tag.service;
 
 
 
-import com.example.apitest.Question.entitiy.Question;
-import com.example.apitest.QuestionSpecification;
 import com.example.apitest.exception.BusinessLogicException;
 import com.example.apitest.exception.ExceptionCode;
 import com.example.apitest.tag.entity.Tag;
@@ -11,7 +9,6 @@ import com.example.apitest.tag.repository.TagRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

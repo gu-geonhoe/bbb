@@ -1,4 +1,4 @@
-package com.example.apitest;
+package com.example.apitest.specification;
 
 import com.example.apitest.Question.entitiy.Question;
 import com.example.apitest.Question.entitiy.QuestionTag;

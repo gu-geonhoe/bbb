@@ -6,10 +6,9 @@ import com.example.apitest.Question.entitiy.QuestionTag;
 import com.example.apitest.Question.repository.QuestionRepository;
 
 import com.example.apitest.Question.repository.QuestionTagRepository;
-import com.example.apitest.QuestionSpecification;
-import com.example.apitest.QuestionTagSpecification;
+import com.example.apitest.specification.QuestionSpecification;
+import com.example.apitest.specification.QuestionTagSpecification;
 import com.example.apitest.User.entity.User;
-import com.example.apitest.User.repository.UserRepository;
 import com.example.apitest.User.service.UserService;
 import com.example.apitest.exception.BusinessLogicException;
 import com.example.apitest.exception.ExceptionCode;
@@ -19,12 +18,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
 import java.util.Optional;
 
 @Service
