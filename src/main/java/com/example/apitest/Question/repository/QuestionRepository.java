@@ -1,15 +1,18 @@
 package com.example.apitest.Question.repository;
 
 import com.example.apitest.Question.entitiy.Question;
+import com.example.apitest.tag.entity.Tag;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface QuestionRepository extends JpaRepository<Question, Long>, JpaSpecificationExecutor<Question> {
+public interface QuestionRepository extends JpaRepository<Question, Long>, JpaSpecificationExecutor<Question>  {
 
 
     //Specification을 인자로 받는 findAll 함수를 사용하기 위해서는 인터페이스에 JpaSpecificationExecutor를 상속받아야 한다.

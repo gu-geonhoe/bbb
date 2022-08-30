@@ -8,9 +8,15 @@ public enum ExceptionCode {
     ANSWER_NOT_FOUND(404, "Answer not found"),
     ANSWER_ID_EXISTS(409, "Answer Id Already exists"),
     QUESTION_NOT_FOUND(404, "Question not found"),
+    TAG_NOT_FOUND(404, "Tag not found");
+
   /*  CANNOT_CHANGE_ORDER(403, "Order can not change"),
-    NOT_IMPLEMENTATION(501, "Not Implementation"),*/
+    NOT_IMPLEMENTATION(501, "Not Implementation"),
     INVALID_MEMBER_STATUS(400, "Invalid member status");
+
+   */
+
+
 
     @Getter
     private int status;

@@ -5,6 +5,8 @@ import lombok.Getter;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 public class QuestionPatchDto {
@@ -20,7 +22,11 @@ public class QuestionPatchDto {
     @NotBlank(message = "공백 불가")
     private String content;
 
+   /* private List<String> tagValues = new ArrayList<>();*/
+    // 질문에 해당하는 tagValue(ex. JAVA)를 선택
 
+
+    private List<QuestionTagDto> questionTags;
   /*  public User getUser(){
         User user = new User();
         user.setUserId(userId);
@@ -34,4 +40,6 @@ public class QuestionPatchDto {
     public void setQuestionId(long questionId){
         this.questionId = questionId;
     }
+
+
 }

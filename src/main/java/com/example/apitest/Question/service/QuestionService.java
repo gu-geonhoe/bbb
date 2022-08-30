@@ -2,17 +2,24 @@ package com.example.apitest.Question.service;
 
 
 import com.example.apitest.Question.entitiy.Question;
+import com.example.apitest.Question.entitiy.QuestionTag;
 import com.example.apitest.Question.repository.QuestionRepository;
 
+import com.example.apitest.Question.repository.QuestionTagRepository;
 import com.example.apitest.QuestionSpecification;
+import com.example.apitest.QuestionTagSpecification;
+import com.example.apitest.User.entity.User;
 import com.example.apitest.User.repository.UserRepository;
 import com.example.apitest.User.service.UserService;
 import com.example.apitest.exception.BusinessLogicException;
 import com.example.apitest.exception.ExceptionCode;
+import com.example.apitest.tag.entity.Tag;
+import com.example.apitest.tag.service.TagService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -25,16 +32,23 @@ public class QuestionService {
 
     private final UserService userService;
     private final QuestionRepository questionRepository;
+    private final TagService tagService;
+    private final QuestionTagRepository questionTagRepository;
+
     //private final AnswerService answerService;
 
     //AnswerService 추가
     //commentService 추가
 
     public QuestionService(UserService userService,
-                           QuestionRepository questionRepository
+                           QuestionRepository questionRepository,
+                           TagService tagService,
+                           QuestionTagRepository questionTagRepository
                            ){
         this.userService = userService;
         this.questionRepository = questionRepository;
+        this.tagService = tagService;
+        this.questionTagRepository = questionTagRepository;
         //this.answerService = answerService;
 
     }
@@ -54,11 +68,12 @@ public class QuestionService {
         // 회원이 존재하는지 확인
         userService.findVerifiedUser(question.getUser().getUserId());
 
-       /* // 답글, 댓글이 존재하는지 확인
-        question.getTotalEntities().stream()
-                .forEach(totalEntity -> answerService.
-                        findVerifiedAnswer(totalEntity.getAnswer().getAnswerId()));*/
+        // 태그가 존재하는지 확인
+        question.getQuestionTags().stream()
+                .forEach(questionTag -> tagService.
+                        findVerifiedTag(questionTag.getTag().getTagId()));
     }
+
    public Question updateQuestion(Question question) {
         Question findQuestion = findVerifiedQuestionId(question.getQuestionId());
         //ofNullable은 일반 객체뿐만 아니라 null값까지 입력으로 받을 수 있다
@@ -74,6 +89,9 @@ public class QuestionService {
        //질문 내용 변경
        Optional.ofNullable(question.getContent())
                .ifPresent(content -> findQuestion.setContent(content));
+       //태그 변경 추가
+       Optional.ofNullable(question.getQuestionTags())
+               .ifPresent(questionTags -> findQuestion.setQuestionTags(questionTags));
 
         return saveQuestion(findQuestion);
    }
@@ -105,16 +123,31 @@ public class QuestionService {
     public Page<Question> findQuestions(int page, int size) {
         return questionRepository.findAll(PageRequest.of(page, size,
                 Sort.by("questionId").descending()));
+        //Page<T> findAll(Pageable pageable);
     }
 
 
-    public Page<Question> searchUserQuestionList(Long userId, int page, int size) {
+    public Page<Question> searchUserQuestionList(User user, int page, int size) {
 
-        Specification<Question> spec = Specification.where(QuestionSpecification.equalUserId(userId));
-        Page<Question> userQuestionsList = questionRepository.findAll(PageRequest.of(page,size,
+        Specification<Question> spec = Specification.where(QuestionSpecification.equalUser(user));
+        return questionRepository.findAll(spec, PageRequest.of(page,size,
                 Sort.by("createdAt").descending()));
-        return userQuestionsList;
+        //Page<T> findAll(@Nullable Specification<T> spec, Pageable pageable);
+
     }
+
+    public Page<QuestionTag> searchTagQuestionList(Tag tag, int page, int size) {
+        Specification<QuestionTag> spec = Specification.where(QuestionTagSpecification.equalTag(tag));
+        return questionTagRepository.findAll(spec, PageRequest.of(page,size,
+                Sort.by("questionTagId").descending()));
+        //question의 태그리스트를 불러
+        /*List<QuestionTag> questionTags = searchQuestionTagList(tag);  // 얘를 Question에 넣는다*/
+        /*Specification<Question> spec = Specification.where(QuestionSpecification.equalQuestionTags(questionTags));
+        return questionRepository.findAll(spec, PageRequest.of(page,size,
+                Sort.by("createdAt").descending()));*/
+    }
+
+
 
     public String cancelQuestion(long questionId) {
         Question findQuestion = findVerifiedQuestionId(questionId);

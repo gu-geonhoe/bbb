@@ -80,7 +80,8 @@ private final UserMapper mapper;
     public ResponseEntity patchUser(
             @PathVariable("user-id") @Positive long userId,
             @Valid @RequestBody UserPatchDto userPatchDto) {
-        userPatchDto.setUserId(userId);
+
+       userPatchDto.setUserId(userId);
 
        User user =
                 userService.updateUser(mapper.userPatchDtoToUser(userPatchDto));
@@ -105,7 +106,9 @@ private final UserMapper mapper;
     @DeleteMapping("/delete/{user-id}")  //회원 삭제
     public ResponseEntity userDelete(
             @PathVariable("user-id") long userId){
-        userService.deleteUser(userId);
-        return new ResponseEntity(HttpStatus.NO_CONTENT);
+        String result = userService.deleteUser(userId);
+
+        // map <- key: message , value : 삭제되었습ㄴ디ㅏ
+        return new ResponseEntity(result, HttpStatus.NO_CONTENT);
     }
 }
