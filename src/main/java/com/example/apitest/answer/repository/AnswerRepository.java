@@ -1,4 +1,7 @@
 package com.example.apitest.answer.repository;
 
-public interface AnswerRepository {
+import com.example.apitest.answer.entitiy.Answer;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface AnswerRepository extends JpaRepository<Answer, Long> {
 }
