@@ -66,7 +66,7 @@ public class Question extends Auditable {
     }
 
     //Tag와 연결 -> Question(1) : QuestionTag(N) : Tag(1)
-    @OneToMany(mappedBy = "question",cascade = CascadeType.REMOVE) //REMOVE  PERSIST ALL
+    @OneToMany(mappedBy = "question",cascade = CascadeType.ALL) //REMOVE  PERSIST ALL
     private List<QuestionTag> questionTags = new ArrayList<>();
 
     /*
