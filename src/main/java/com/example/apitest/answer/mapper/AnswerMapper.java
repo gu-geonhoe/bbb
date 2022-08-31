@@ -6,9 +6,10 @@ import com.example.apitest.answer.dto.AnswerPatchDto;
 import com.example.apitest.answer.dto.AnswerPostDto;
 import com.example.apitest.answer.dto.AnswerResponseDto;
 import com.example.apitest.answer.entitiy.Answer;
+import org.mapstruct.Mapper;
 
 import java.util.List;
-
+@Mapper(componentModel = "spring")
 public interface AnswerMapper {
 
 

@@ -13,6 +13,8 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @Setter
+@Entity
+@Table(name = "ANSWERS")
 public class Answer extends Auditable {
 
     @Id
@@ -42,7 +44,7 @@ public class Answer extends Auditable {
 
     public void setQuestion(Question question){this.question = question;}
 
-    @Column(length = 100, nullable = false)
+    @Column(length = 500, nullable = false)
     private String content;
 
     //private long recommends;
