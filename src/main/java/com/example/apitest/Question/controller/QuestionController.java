@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Positive;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -64,7 +63,7 @@ public class QuestionController {
                 new SingleResponseDto<>(mapper.questionToQuestionResponseDto(question)),
                 HttpStatus.CREATED);
     }
-    @GetMapping //전체 질문 반환
+    @GetMapping //전체 질문 반환 , 응답 데이터에 questionTags 추가 되어야한다.
     public ResponseEntity getQuestions(@Positive @RequestParam int page,
                                     @Positive @RequestParam int size) {
         Page<Question> pageQuestions = questionService.findQuestions(page - 1, size);
@@ -150,9 +149,22 @@ public class QuestionController {
    //질문 삭제할 때 question(1) - answer (n) 중 answer이 존재하는지 확인
    // 존재하면 삭제 x, 없다면 삭제
     public ResponseEntity cancelQuestion(@PathVariable("question-id") @Positive long questionId) {
-        String result = questionService.cancelQuestion(questionId);
 
-        return new ResponseEntity<>(result, HttpStatus.NO_CONTENT);
-    }
+       //답변이 달리면 질문을 삭제할수 없도록 설정
+       Question question = questionService.findQuestionByQuestionId(questionId);
 
+
+
+       if (question.getAnswers().size() == 0) {  // 질문에 등록된 답변이 없을 때
+
+           questionService.cancelQuestion(questionId);
+
+
+           return new ResponseEntity<>(
+                   "삭제 완료"
+                   , HttpStatus.NO_CONTENT);
+
+       } else
+           return new ResponseEntity<>("삭제 실패",HttpStatus.FORBIDDEN);
+   }
 }

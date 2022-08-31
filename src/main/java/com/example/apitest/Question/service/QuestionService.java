@@ -144,14 +144,13 @@ public class QuestionService {
 
 
 
-    public String cancelQuestion(long questionId) {
+    public void cancelQuestion(long questionId) {
         Question findQuestion = findVerifiedQuestionId(questionId);
        /* long deletedQuestionId = findQuestion.getQuestionId();*/
 
         /*findQuestion.setQuestionStatus(Question.QuestionStatus.QUESTION_CANCEL);*/
 
         questionRepository.delete(findQuestion);
-        return "글이 삭제되었습니다.";
     }
 
 

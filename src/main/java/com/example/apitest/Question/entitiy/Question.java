@@ -66,7 +66,7 @@ public class Question extends Auditable {
     }
 
     //Tag와 연결 -> Question(1) : QuestionTag(N) : Tag(1)
-    @OneToMany(mappedBy = "question",cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "question",cascade = CascadeType.REMOVE) //REMOVE  PERSIST ALL
     private List<QuestionTag> questionTags = new ArrayList<>();
 
     /*
@@ -81,11 +81,31 @@ public class Question extends Auditable {
     }
 
     // Answer와 연결 -> Question (1) : Answer(N)
-    @OneToMany(mappedBy = "question")
+    @OneToMany(mappedBy = "question",cascade = CascadeType.REMOVE)
     private List<Answer> answers = new ArrayList<>();
     // answers는 연관 관계의 주인이 아니므로 mappedBy로 Answer 엔티티에 있는 question이 연관 관계의 주인이라고 선언해 알려준다.
     //   - 순수한 객체에서만 관리되도록 한다.
     //   - DB에 반영이 안된다.
+    /*
+    부모가 사라진 자식은 어떻게 해야할까?
+   하나의 질문(question)에 대한 여러 답변(answer)이 존재한다.
+   부모인 question 삭제되었다면 answer도 존재할 필요가 없다.
+   부모(question)가 삭제될 때 연관된 자식(answer)들을 함께 삭제할 수 있도록 다음과 같은 방식을 사용하여 해결할 수 있다.
+    1. cascade = CascadeType.REMOVE
+    자식인 answers에 cascade = CascadeType.REMOVE 를 추가하여 영속성 전이(Cascade)를 REMOVE로 설정한다.
+    해당 설정을 통해 부모의 영속성 상태가 자식에게 전이됨으로써 부모인 Question이 제거될 때 연관된 자식인 answer도 함께 제거된다.
+
+    2. orphanRemoval = true
+    자식인 answers에 orphanRemoval = true를 추가하여 고아가 된 자식을 제거할 수 있도록 설정한다.
+    orphanRemoval 속성을 true로 두게되면 Question이 제거될 때 고아가 된 answer Entity도 함께 제거된다.
+
+    위 두 방식 모두 해당 연관관계에선 똑같이 동작하므로, 선택해서 사용하면 된다.
+
+    - Cascade(영속성 전이)는 부모의 영속성 상태와 자식의 영속성 상태를 동일하게 관리하는 것이며, PERSIST, ALL, REMOVE, MERGE와 같이 다양한 속성이 존재한다.
+
+    - orphanRemoval은 고아가 된 객체에 대한 제거 여부를 설정하는 것이다. 참조 객체가 하나일 때만 사용해야 한다.
+    즉, 해당 부모가 삭제되었을 때 다른 곳에서 해당 객체를 참조하지 않아 고아 상태임이 확실 할 때 안전하게 사용하여야 한다는 것이다.
+     */
 
 
    /* @Column
