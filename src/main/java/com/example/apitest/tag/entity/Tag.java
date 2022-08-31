@@ -22,10 +22,10 @@ public class Tag {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long tagId;
 
-    @Column(length = 20, nullable = false, unique = true)
+    @Column(length = 100, nullable = false, unique = true)
     private String tagValue;
 
-    @Column(length = 100, nullable = false)
+    @Column(length = 500, nullable = false)
     private String tagInfo;
 
    @OneToMany(mappedBy = "tag")
