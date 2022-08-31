@@ -34,6 +34,8 @@ public class QuestionController {
 
     private final QuestionMapper mapper;
 
+    private final int size = 10;
+
 
     public QuestionController(QuestionService questionService,
                               QuestionMapper mapper,
@@ -64,8 +66,7 @@ public class QuestionController {
                 HttpStatus.CREATED);
     }
     @GetMapping //전체 질문 반환 , 응답 데이터에 questionTags 추가 되어야한다.
-    public ResponseEntity getQuestions(@Positive @RequestParam int page,
-                                    @Positive @RequestParam int size) {
+    public ResponseEntity getQuestions(@Positive @RequestParam int page) {
         Page<Question> pageQuestions = questionService.findQuestions(page - 1, size);
         List<Question> questions = pageQuestions.getContent();
 
@@ -89,8 +90,7 @@ public class QuestionController {
 
    @GetMapping("/qListByUserId/{user-id}") //회원이 작성한 글 조회 + 답변 및 댓글 정보 같이 반환
     public ResponseEntity getQuestionByUserId(@PathVariable("user-id")long userId,
-                                              @Positive @RequestParam int page,
-                                              @Positive @RequestParam int size){
+                                              @Positive @RequestParam int page){
 
         //입력 받은 userId를 가지는 User 객체를 찾는다.
         User user = userService.findUser(userId);
@@ -107,8 +107,7 @@ public class QuestionController {
 
     @GetMapping("/qListByTagId/{tag-id}")
     public ResponseEntity getQuestionBytagId(@PathVariable("tag-id")long tagId,
-                                             @Positive @RequestParam int page,
-                                             @Positive @RequestParam int size){
+                                             @Positive @RequestParam int page){
         Tag tag = tagService.findVerifiedTag(tagId);
 
 
@@ -125,11 +124,12 @@ public class QuestionController {
 
 
 
-    @PatchMapping("/edit/{question-id}") //글 수정 아이디 값 같은지 확인 해야함 question-id 값을 유저가 보유하는지 확인
+    @PatchMapping("/edit/{question-id}")   // 기능 이상 확인 필요
     public ResponseEntity patchQuestion(@PathVariable("question-id") long questionId, //@Positive 있었음
                                         @RequestParam long userId,  //@Positive 있었음
                                         @Valid @RequestBody QuestionPatchDto questionPatchDto){
 
+        //글 수정 아이디 값 같은지 확인 해야함 question-id 값을 유저가 보유하는지 확인
         questionPatchDto.setUserId(userId);
         questionPatchDto.setQuestionId(questionId);
 

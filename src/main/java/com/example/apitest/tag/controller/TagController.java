@@ -30,9 +30,13 @@ import java.util.List;
 @Slf4j
 public class TagController {
 
+
+
     private final TagService tagService;
     private final TagMapper mapper;
     private final QuestionService questionService;
+
+    private final int size = 10;
 
     public TagController(TagService tagService, TagMapper mapper, QuestionService questionService){
         this.tagService = tagService;
@@ -72,8 +76,7 @@ public class TagController {
     }
 
     @GetMapping //전체 태그 조회
-    public ResponseEntity getTags(@Positive @RequestParam int page,
-                                   @Positive @RequestParam int size) {
+    public ResponseEntity getTags(@Positive @RequestParam int page) {
 
         Page<Tag> pageTags = tagService.findTags(page-1,size);
         List<Tag> tags = pageTags.getContent();
@@ -87,29 +90,8 @@ public class TagController {
     @DeleteMapping("/delete/{tag-id}")  //태그 삭제
     public ResponseEntity userDelete(
             @PathVariable("tag-id") long tagId){
-        String result = tagService.deleteTag(tagId);
-        return new ResponseEntity(result,HttpStatus.NO_CONTENT);
+        tagService.deleteTag(tagId);
+        return new ResponseEntity("태그 삭제 완료", HttpStatus.NO_CONTENT);
     }
-
-   /* @GetMapping("/qListByTagId/{tag-id}")
-    public ResponseEntity getQuestionBytagId(@PathVariable("tag-id")long tagId,
-                                             @Positive @RequestParam int page,
-                                             @Positive @RequestParam int size){
-        //Tag tag = tagService.findVerifiedTag(tagId);
-        Tag tag = tagService.findVerifiedTag(tagId);
-        //question의 태그 리스트인 tags에 찾으려는 tag가 있는지 확인
-        // 해당 태그를 가진 모든 question을 불러오자!
-
-
-        //page, 질문마다 가 존재 -> 지정한 tag를 가지는 모든 질문을 찾아서 tagQuestions에 담는다.
-        Page<Question> tagQuestions = tagService.searchTagQuestionList(tag,page - 1, size);
-
-        //data
-        List<Question> questions = tagQuestions.getContent();
-        // homework solution 추가
-        return new ResponseEntity<>(
-                new MultiResponseDto<>(mapper.questionsToQuestionResponseDtos(questions),tagQuestions),
-                HttpStatus.OK);
-    }*/
 
 }

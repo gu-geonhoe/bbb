@@ -52,10 +52,9 @@ public class UserService {
                 Sort.by("userId").descending()));
     }
 
-    public String deleteUser(long userId) {
+    public void deleteUser(long userId) {
         User findUser = findVerifiedUser(userId);
         userRepository.delete(findUser);
-        return "회원이 삭제되었습니다.";
     }
 
     public User findVerifiedUser(long userId) {

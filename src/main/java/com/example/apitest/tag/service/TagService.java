@@ -50,10 +50,9 @@ public class TagService {
     }
 
 
-    public String deleteTag(long tagId) {
+    public void deleteTag(long tagId) {
         Tag findTag = findVerifiedTag(tagId);
         tagRepository.delete(findTag);
-        return "태그가 삭제되었습니다.";
     }
 
 

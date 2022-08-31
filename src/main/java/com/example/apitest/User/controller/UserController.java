@@ -27,24 +27,13 @@ public class UserController {
 private final UserService userService;
 private final UserMapper mapper;
 
+private final int size = 10;
+
     public UserController(UserService userService, UserMapper mapper) {
         this.userService = userService;
         this.mapper = mapper;
     }
 
-
-    @PostMapping("/logout")  //로그아웃
-    public String logOut(){
-        return "로그아웃되었습니다.";
-    }
-    @PostMapping("/login")  //로그인
-    public String login( @RequestParam String userName,
-                        @RequestParam String password){
-/*
-        userService.verifyUserNameAndPassword(userName,password);*/
-        return "로그인 성공";
-
-    }
 
     @PostMapping("/signup")  //회원 가입 , PostUser
     public ResponseEntity signup(@Valid @RequestBody UserPostDto userDto){
@@ -92,8 +81,7 @@ private final UserMapper mapper;
     }
 
     @GetMapping //전체 회원 조회
-    public ResponseEntity getUsers(@Positive @RequestParam int page,
-                                     @Positive @RequestParam int size) {
+    public ResponseEntity getUsers(@Positive @RequestParam int page) {
         Page<User> pageUsers = userService.findUsers(page - 1, size);
         List<User> users = pageUsers.getContent();
         return new ResponseEntity<>(
@@ -104,11 +92,9 @@ private final UserMapper mapper;
 
 
     @DeleteMapping("/delete/{user-id}")  //회원 삭제
-    public ResponseEntity userDelete(
-            @PathVariable("user-id") long userId){
-        String result = userService.deleteUser(userId);
+    public ResponseEntity userDelete(@PathVariable("user-id") long userId){
+        userService.deleteUser(userId);
 
-        // map <- key: message , value : 삭제되었습ㄴ디ㅏ
-        return new ResponseEntity(result, HttpStatus.NO_CONTENT);
+        return new ResponseEntity("회원 삭제 완료", HttpStatus.NO_CONTENT);
     }
 }

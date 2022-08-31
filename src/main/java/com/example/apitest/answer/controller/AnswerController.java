@@ -33,6 +33,8 @@ public class AnswerController {
     private final QuestionService questionService;
     private final AnswerMapper mapper;
 
+    private final int size = 10;
+
     public AnswerController(AnswerService answerService,
                             UserService userService,
                             QuestionService questionService,
@@ -58,8 +60,7 @@ public class AnswerController {
 
     //전체 답변 반환
     @GetMapping
-    public ResponseEntity getAnswers(@Positive @RequestParam int page,
-                                       @Positive @RequestParam int size) {
+    public ResponseEntity getAnswers(@Positive @RequestParam int page) {
         Page<Answer> pageAnswers = answerService.findAnswers(page - 1, size);
         List<Answer> answers = pageAnswers.getContent();
 
@@ -73,8 +74,7 @@ public class AnswerController {
     // 질문에 달린 전체 답변 반환  -> 500 error
     @GetMapping("/aListByQuestionId/{question-id}")
     public ResponseEntity getAnswersByQuestionId(@PathVariable("question-id")long questionId,
-                                                 @Positive @RequestParam int page,
-                                                 @Positive @RequestParam int size){
+                                                 @Positive @RequestParam int page){
         //questionId에 해당하는 Question 객체를 찾는다.
         Question question = questionService.findQuestionByQuestionId(questionId);
 
@@ -90,8 +90,7 @@ public class AnswerController {
 
     @GetMapping("/aListByUserId/{user-id}")
     public ResponseEntity getAnswersByUserId(@PathVariable("user-id")long userId,
-                                                 @Positive @RequestParam int page,
-                                                 @Positive @RequestParam int size){
+                                                 @Positive @RequestParam int page){
         //questionId에 해당하는 Question 객체를 찾는다.
         User user = userService.findVerifiedUser(userId);
 
@@ -118,6 +117,9 @@ public class AnswerController {
                                       @PathVariable("answer-id") long answerId,
                                       @RequestParam long userId,
                                       @Valid @RequestBody AnswerPatchDto answerPatchDto){
+
+        // 로그인한 user와 답변의 user가 같은지 확인하는 기능 추가해줘야 한다.
+
         answerPatchDto.setAnswerId(answerId);
         answerPatchDto.setUserId(userId);
         answerPatchDto.setQuestionId(questionId);
