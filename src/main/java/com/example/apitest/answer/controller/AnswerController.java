@@ -56,8 +56,22 @@ public class AnswerController {
                 HttpStatus.CREATED);
     }
 
-    // 질문에 달린 전체 답변 반환
-    @GetMapping("/aList/{question-id}")
+    //전체 답변 반환
+    @GetMapping
+    public ResponseEntity getAnswers(@Positive @RequestParam int page,
+                                       @Positive @RequestParam int size) {
+        Page<Answer> pageAnswers = answerService.findAnswers(page - 1, size);
+        List<Answer> answers = pageAnswers.getContent();
+
+        // homework solution 추가
+        return new ResponseEntity<>(
+                new MultiResponseDto<>(mapper.answersToAnswerResponseDtos(answers), pageAnswers),
+                HttpStatus.OK);
+
+    }
+
+    // 질문에 달린 전체 답변 반환  -> 500 error
+    @GetMapping("/aListByQuestionId/{question-id}")
     public ResponseEntity getAnswersByQuestionId(@PathVariable("question-id")long questionId,
                                                  @Positive @RequestParam int page,
                                                  @Positive @RequestParam int size){
@@ -74,7 +88,7 @@ public class AnswerController {
 
     // 유저가 작성한 전체 답변 반환
 
-    @GetMapping("/aList/{user-id}")
+    @GetMapping("/aListByUserId/{user-id}")
     public ResponseEntity getAnswersByUserId(@PathVariable("user-id")long userId,
                                                  @Positive @RequestParam int page,
                                                  @Positive @RequestParam int size){
@@ -104,10 +118,10 @@ public class AnswerController {
                                       @PathVariable("answer-id") long answerId,
                                       @RequestParam long userId,
                                       @Valid @RequestBody AnswerPatchDto answerPatchDto){
-
+        answerPatchDto.setAnswerId(answerId);
         answerPatchDto.setUserId(userId);
         answerPatchDto.setQuestionId(questionId);
-        answerPatchDto.setAnswerId(answerId);
+
 
         //유효한 회원 Id인지 확인
         User editor = userService.findVerifiedUser(answerPatchDto.getUserId());

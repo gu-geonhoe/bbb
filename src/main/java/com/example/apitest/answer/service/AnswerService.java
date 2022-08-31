@@ -65,7 +65,7 @@ public class AnswerService {
     public Answer findAnswer(long answerId){
         return findVerifiedAnswerId(answerId);
     }
-    public Answer findVerifiedAnswerId(long answerId){
+    public Answer findVerifiedAnswerId(long answerId){  // 답변 수정 시 문제 발생
         Optional<Answer> optionalAnswer = answerRepository.findById(answerId);
         Answer findAnswer =
             optionalAnswer.orElseThrow(()->
@@ -84,7 +84,7 @@ public class AnswerService {
 
         Specification<Answer> spec = Specification.where(AnswerSpecification.equalQuestion(question));
         return answerRepository.findAll(spec, PageRequest.of(page,size,
-                Sort.by("createdAt").descending()));
+                Sort.by("answerId").descending()));
     }
 
     // 회원이 작성한 전체 답변 조회
@@ -92,7 +92,7 @@ public class AnswerService {
 
         Specification<Answer> spec = Specification.where(AnswerSpecification.equalUser(user));
         return answerRepository.findAll(spec, PageRequest.of(page,size,
-                Sort.by("createdAt").descending()));
+                Sort.by("answerId").descending()));
     }
 
     public String cancelAnswer(long answerId){

@@ -29,6 +29,8 @@ public interface AnswerMapper {
     default Answer answerPatchDtoToAnswer(AnswerPatchDto answerPatchDto, User user, Question question){
         Answer answer = new Answer();
         answer.setUser(user);
+
+        answer.setAnswerId(answerPatchDto.getAnswerId());
         answer.setUserName(user.getUserName());
         answer.setQuestion(question);// answer 객체에 questionId에 해당하는 질문 정보 대입
 

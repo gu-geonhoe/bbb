@@ -31,7 +31,9 @@ public class Answer extends Auditable {
 
     private String userName;
 
-    public void setUser(User user){this.user=user;}
+    public void setUser(User user){
+        this.user=user;
+    }
 
 
     // question (1) : Answer(N)
