@@ -178,6 +178,8 @@ public class QuestionController {
 
    @DeleteMapping("/delete/{question-id}")  //질문 삭제 아이디 값 같은지 확인 해야함 question-id 값을 유저가 보유하는지 확인
 
+   //질문 삭제할 때 question(1) - answer (n) 중 answer이 존재하는지 확인
+   // 존재하면 삭제 x, 없다면 삭제
     public ResponseEntity cancelQuestion(@PathVariable("question-id") @Positive long questionId) {
         String result = questionService.cancelQuestion(questionId);
 

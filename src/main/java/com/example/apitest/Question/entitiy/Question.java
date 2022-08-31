@@ -2,6 +2,7 @@ package com.example.apitest.Question.entitiy;
 
 
 import com.example.apitest.User.entity.User;
+import com.example.apitest.answer.entitiy.Answer;
 import com.example.apitest.audit.Auditable;
 import com.example.apitest.tag.entity.Tag;
 import lombok.Getter;
@@ -64,7 +65,7 @@ public class Question extends Auditable {
         this.user = user;
     }
 
-    //Tag와 연결
+    //Tag와 연결 -> Question(1) : QuestionTag(N) : Tag(1)
     @OneToMany(mappedBy = "question",cascade = CascadeType.PERSIST)
     private List<QuestionTag> questionTags = new ArrayList<>();
 
@@ -79,6 +80,12 @@ public class Question extends Auditable {
         }
     }
 
+    // Answer와 연결 -> Question (1) : Answer(N)
+    @OneToMany(mappedBy = "question")
+    private List<Answer> answers = new ArrayList<>();
+    // answers는 연관 관계의 주인이 아니므로 mappedBy로 Answer 엔티티에 있는 question이 연관 관계의 주인이라고 선언해 알려준다.
+    //   - 순수한 객체에서만 관리되도록 한다.
+    //   - DB에 반영이 안된다.
 
 
    /* @Column
@@ -93,8 +100,6 @@ public class Question extends Auditable {
     @Column(length = 500, nullable = false)
     private String content;
 
- /*   @Column
-    private char deletable;*/
 
 
     public enum QuestionStatus {
