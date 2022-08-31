@@ -4,11 +4,14 @@ package com.example.apitest.answer.entitiy;
 import com.example.apitest.Question.entitiy.Question;
 import com.example.apitest.User.entity.User;
 import com.example.apitest.audit.Auditable;
+import com.example.apitest.comment.entity.Comment;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor
 @Getter
@@ -45,6 +48,11 @@ public class Answer extends Auditable {
     //N인 Answer가 연관 관계 주인
 
     public void setQuestion(Question question){this.question = question;}
+
+    // answer (1 ) : comment(n)
+
+    @OneToMany(mappedBy = "answer", cascade = CascadeType.PERSIST) //REMOVE  PERSIST ALL
+    private List<Comment> comments = new ArrayList<>();
 
     @Column(length = 500, nullable = false)
     private String content;

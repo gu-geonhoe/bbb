@@ -7,6 +7,7 @@ import com.example.apitest.Question.entitiy.Question;
 import com.example.apitest.answer.entitiy.Answer;
 import com.example.apitest.audit.Auditable;
 
+import com.example.apitest.comment.entity.Comment;
 import com.example.apitest.tag.entity.Tag;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -37,16 +38,22 @@ public class User extends Auditable {
     private String password;
 
 
+    //// 회원이 삭제되면 작성한 글도 삭제 : cascade = CascadeType.REMOVE
+
    //question과 연결 -> USER(1) : QUESTION(N)
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Question> questions = new ArrayList<>();
     //mappedBy로 QUESTION 엔티티에 있는 user가 연관 관계의 주인이라고 선언
 
 
     //Answer와 연결 -> USER(1) : ANSWER(N)
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
     private List<Answer> answers = new ArrayList<>();
     //mappedBy로 ANSWER 엔티티에 있는 user가 연관 관계의 주인이라고 선언
+
+    @OneToMany(mappedBy = "answer", cascade = CascadeType.REMOVE) //REMOVE  PERSIST ALL
+    private List<Comment> comments = new ArrayList<>();
+
 
     public User(long userId, String userName, String email, String password) {
         this.userId = userId;
