@@ -45,3 +45,24 @@ ex) 회원 테이블에서 추천인이 누구인지 파악하기 위해 사용
 
 질문 (1) - 태그 ( N)
 
+
+/*// tagValue 리스트를 입력 받아, 입력 받은 수의 크기를 가지는 Tag 타입의 List 생성
+        List<Tag> tags = new ArrayList<>();
+        for(String tagValue : questionPostDto.getTagValues())
+            tags.add(tagService.findTagByTagValue(tagValue));*/
+//추가한 부분 : 각 tag에 현재 question 객체 담기
+        //for(Tag tag : tags)
+        //    tag.setQuestion(question);
+        // -> Question 내부에 tag 존재하고, tag 내부에 question 존재하기 때문에 무한 반복된다
+                //question의 태그 리스트인 tags에 찾으려는 tag가 있는지 확인
+                // 해당 태그를 가진 모든 question을 불러오자!
+
+  @GetMapping("/qListByTagId/{tag-id}")
+//page, 질문마다 가 존재 -> 지정한 tag를 가지는 모든 질문을 찾아서 tagQuestions에 담는다.
+//Question 태그 내부에 question을 가져와야 한다!!!!!!!!!!!!!!!!!
+
+@PatchMapping("/edit/{question-id}")
+  /*// tagValue 리스트를 입력 받아, 입력 받은 수의 크기를 가지는 Tag 타입의 List 생성
+        List<Tag> tags = new ArrayList<>();
+        for(String tagValue : questionPatchDto.getTagValues())
+            tags.add(tagService.findTagByTagValue(tagValue));*/

@@ -11,15 +11,12 @@ public class AnswerPostDto {
     @Positive
     private long userId;
 
-    @Positive
-    private long questionId;
-
     @NotBlank(message = "공백 불가")
     private String content;
 
     public void setUserId(long userId){this.userId = userId;}
 
-    public void setQuestionId(long questionId) {
+    /*public void setQuestionId(long questionId) {
         this.questionId = questionId;
-    }
+    }*/
 }

@@ -2,6 +2,7 @@ package com.example.apitest.answer.mapper;
 
 import com.example.apitest.Question.entitiy.Question;
 import com.example.apitest.User.entity.User;
+import com.example.apitest.answer.dto.AnswerPatchDto;
 import com.example.apitest.answer.dto.AnswerPostDto;
 import com.example.apitest.answer.dto.AnswerResponseDto;
 import com.example.apitest.answer.entitiy.Answer;
@@ -24,7 +25,7 @@ public interface AnswerMapper {
         return answer;
     }
 
-    default Answer answerPatchDtoToAnswer(AnswerPostDto answerPatchDto, User user, Question question){
+    default Answer answerPatchDtoToAnswer(AnswerPatchDto answerPatchDto, User user, Question question){
         Answer answer = new Answer();
         answer.setUser(user);
         answer.setUserName(user.getUserName());
