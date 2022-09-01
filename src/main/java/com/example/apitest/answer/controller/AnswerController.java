@@ -141,8 +141,8 @@ public class AnswerController {
     // 답변 삭제
     @DeleteMapping("/delete/{answer-id}")
     public ResponseEntity cancelAnswer(@PathVariable("answer-id") @Positive long answerId){
-        String result = answerService.cancelAnswer(answerId);
+        answerService.cancelAnswer(answerId);
 
-        return new ResponseEntity<>(result, HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>("답변 삭제 완료", HttpStatus.NO_CONTENT);
     }
 }

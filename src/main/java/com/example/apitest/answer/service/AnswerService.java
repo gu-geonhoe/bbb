@@ -95,10 +95,9 @@ public class AnswerService {
                 Sort.by("answerId").descending()));
     }
 
-    public String cancelAnswer(long answerId){
+    public void cancelAnswer(long answerId){
         Answer findAnswer = findVerifiedAnswerId(answerId);
 
         answerRepository.delete(findAnswer);
-        return "답변 삭제 완료";
     }
 }
