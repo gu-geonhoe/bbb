@@ -143,6 +143,8 @@ public class AnswerController {
     public ResponseEntity cancelAnswer(@PathVariable("answer-id") @Positive long answerId){
         answerService.cancelAnswer(answerId);
 
-        return new ResponseEntity<>("답변 삭제 완료", HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(
+                "답변 삭제 완료"
+                , HttpStatus.OK);
     }
 }

@@ -91,7 +91,9 @@ public class TagController {
     public ResponseEntity userDelete(
             @PathVariable("tag-id") long tagId){
         tagService.deleteTag(tagId);
-        return new ResponseEntity("태그 삭제 완료", HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(
+                "태그 삭제 완료"
+                , HttpStatus.OK);
     }
 
 }

@@ -94,7 +94,14 @@ private final int size = 10;
     @DeleteMapping("/delete/{user-id}")  //회원 삭제
     public ResponseEntity userDelete(@PathVariable("user-id") long userId){
         userService.deleteUser(userId);
+        return new ResponseEntity<>(
+                "회원 삭제 완료"
+                , HttpStatus.OK);
+    /*
+    204 No Content
+    : 클라이언트의 요청은 정상적이다. 하지만 컨텐츠를 제공하지 않는다.
 
-        return new ResponseEntity("회원 삭제 완료", HttpStatus.NO_CONTENT);
+     */
     }
+
 }

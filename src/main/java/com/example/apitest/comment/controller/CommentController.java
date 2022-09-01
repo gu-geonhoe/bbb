@@ -155,7 +155,9 @@ public class CommentController {
                                        @RequestParam long userId){
         commentService.cancelComment(commentId);
 
-        return new ResponseEntity<>("댓글 삭제 완료", HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(
+                "댓글 삭제 완료"
+                , HttpStatus.OK);
 
     }
 

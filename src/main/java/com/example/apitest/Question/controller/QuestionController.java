@@ -162,7 +162,7 @@ public class QuestionController {
 
            return new ResponseEntity<>(
                    "삭제 완료"
-                   , HttpStatus.NO_CONTENT);
+                   , HttpStatus.OK);
 
        } else
            return new ResponseEntity<>("삭제 실패",HttpStatus.FORBIDDEN);
