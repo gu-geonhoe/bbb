@@ -99,7 +99,7 @@ public class QuestionController {
 
         //data
         List<Question> questions = userQuestions.getContent();
-        // homework solution 추가
+
         return new ResponseEntity<>(
                 new MultiResponseDto<>(mapper.questionsToQuestionResponseDtos(questions),userQuestions),
                 HttpStatus.OK);

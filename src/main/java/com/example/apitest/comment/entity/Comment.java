@@ -3,6 +3,7 @@ package com.example.apitest.comment.entity;
 import com.example.apitest.User.entity.User;
 import com.example.apitest.answer.entitiy.Answer;
 import com.example.apitest.audit.Auditable;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -25,7 +26,7 @@ public class Comment extends Auditable {
     // user(1) : Comment(N)
     @ManyToOne
     @JoinColumn(name = "USER_ID")
-    //@JsonIgnore // 무한 반복 피하기 위해 @JsonIgnore 어노테이션을 추가하여 직렬화에서 제외시키는 방법
+    @JsonIgnore // 무한 반복 피하기 위해 @JsonIgnore 어노테이션을 추가하여 직렬화에서 제외시키는 방법
     private User user;
     //N인 Answer가 연관 관계 주인 -> User의 외래키인 userId를 관리한다. -> DB에 반영이 된다.
 
@@ -39,6 +40,7 @@ public class Comment extends Auditable {
     // answer(1) : Comment(N)
     @ManyToOne
     @JoinColumn(name = "ANSWER_ID")
+    @JsonIgnore
     private Answer answer;
 
 

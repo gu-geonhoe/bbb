@@ -6,6 +6,7 @@ import com.example.apitest.answer.dto.AnswerPatchDto;
 import com.example.apitest.answer.dto.AnswerPostDto;
 import com.example.apitest.answer.dto.AnswerResponseDto;
 import com.example.apitest.answer.entitiy.Answer;
+import com.example.apitest.comment.entity.Comment;
 import org.mapstruct.Mapper;
 
 import java.util.List;
@@ -43,15 +44,22 @@ public interface AnswerMapper {
 
     default AnswerResponseDto answerToAnswerResponseDto(Answer answer){
 
+        List<Comment> comments = answer.getComments();
+
         AnswerResponseDto answerResponseDto = new AnswerResponseDto();
         //a u q
         answerResponseDto.setAnswerId(answer.getAnswerId());
         answerResponseDto.setUserName(answer.getUserName());
         answerResponseDto.setUser(answer.getUser());
+
         answerResponseDto.setQuestion(answer.getQuestion());
         answerResponseDto.setContent(answer.getContent());
         answerResponseDto.setCreatedAt(answer.getCreatedAt());
         answerResponseDto.setModifiedAt(answer.getModifiedAt());
+
+        if(!comments.isEmpty()){ //answer의 comment가 null이 아니라면
+            answerResponseDto.setComments(comments);
+        }
 
         return answerResponseDto;
 

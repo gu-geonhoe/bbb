@@ -9,6 +9,7 @@ import com.example.apitest.Question.dto.QuestionTagResponseDto;
 import com.example.apitest.Question.entitiy.Question;
 import com.example.apitest.Question.entitiy.QuestionTag;
 import com.example.apitest.User.entity.User;
+import com.example.apitest.answer.entitiy.Answer;
 import com.example.apitest.tag.entity.Tag;
 import org.mapstruct.Mapper;
 
@@ -117,19 +118,26 @@ public interface QuestionMapper {
         questionResponseDto.setModifiedAt(question.getModifiedAt());*/
 
         List<QuestionTag> questionTags = question.getQuestionTags();
+        List<Answer> answers = question.getAnswers();
 
         QuestionResponseDto questionResponseDto = new QuestionResponseDto();
+
         questionResponseDto.setQuestionId(question.getQuestionId());
         questionResponseDto.setUserName(question.getUserName());
         questionResponseDto.setUser(question.getUser());
+
         questionResponseDto.setQuestionStatus(question.getQuestionStatus());
         questionResponseDto.setQuestionTitle(question.getQuestionTitle());
         questionResponseDto.setContent(question.getContent());
         questionResponseDto.setCreatedAt(question.getCreatedAt());
         questionResponseDto.setModifiedAt(question.getModifiedAt());
-        questionResponseDto.setQuestionTags(
-                questionTagsToQuestionTagResponseDtos(questionTags)
-        );
+
+
+        if(!answers.isEmpty()){  //question의 answer가 null이 아니라면
+            questionResponseDto.setAnswers(answers); //questionResponseDto의 answers에 question의 answers를 대입
+        }
+        questionResponseDto.setQuestionTags(questionTagsToQuestionTagResponseDtos(questionTags));
+
         return questionResponseDto;
     }
     default List<QuestionTagResponseDto> questionTagsToQuestionTagResponseDtos(

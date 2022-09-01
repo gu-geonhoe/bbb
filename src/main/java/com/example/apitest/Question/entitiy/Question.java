@@ -5,6 +5,7 @@ import com.example.apitest.User.entity.User;
 import com.example.apitest.answer.entitiy.Answer;
 import com.example.apitest.audit.Auditable;
 import com.example.apitest.tag.entity.Tag;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -34,7 +35,7 @@ public class Question extends Auditable {
 
     @ManyToOne
     @JoinColumn(name = "USER_ID")
-    //@JsonIgnore // 무한 반복 피하기 위해 @JsonIgnore 어노테이션을 추가하여 직렬화에서 제외시키는 방법
+    @JsonIgnore // 무한 반복 피하기 위해 @JsonIgnore 어노테이션을 추가하여 직렬화에서 제외시키는 방법
     private User user;
     /*    // 다대일에서는 다 쪽이 연관관계 주인이 되므로 @OneToMany에서 mappedBy 속성의 값으로 연관관계 주인을 지정해줘야 합니다
     // 다대일 양방향 관계에서 Tags가 연관관계의 주인이 된다.
