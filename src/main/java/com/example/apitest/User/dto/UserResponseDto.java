@@ -18,7 +18,7 @@ public class UserResponseDto {
     private long userId;
     private String userName;
     private String email;
-    private String password;
+    //private String password;
 
 
     private List<Question> questions;
