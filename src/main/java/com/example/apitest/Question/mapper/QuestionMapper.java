@@ -56,7 +56,7 @@ public interface QuestionMapper {
     default Question questionPatchDtoToQuestion(QuestionPatchDto questionPatchDto, User user){
         Question question = new Question();
         //questionPost에서 받은 tagValue 리스트의 값들을 읽어 해당하는 태그 정보 가져오기
-
+        question.setQuestionId(questionPatchDto.getQuestionId());    //question Id 매칭시켜주기 추가
         question.setUser(user);  // question 객체에 userid에 해당하는 유저 정보 대입
         question.setUserName(user.getUserName());
         question.setQuestionTitle(questionPatchDto.getQuestionTitle()); // questionpostdto의 제목 받아오기

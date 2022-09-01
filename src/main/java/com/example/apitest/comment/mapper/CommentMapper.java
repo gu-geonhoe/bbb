@@ -18,12 +18,13 @@ public interface CommentMapper {
 
 
     //answerId 세팅 필요할지 여부 확인
-    default Comment commentPostDtoToComment(CommentPostDto commentPostDto, User user, Answer answer){
+    default Comment commentPostDtoToComment(CommentPostDto commentPostDto, User user, Answer answer,long questionId){
         Comment comment = new Comment();
         comment.setUser(user);
+
         comment.setUserName(user.getUserName());
         comment.setAnswer(answer);
-        comment.setQuestionId(answer.getQuestion().getQuestionId());
+        comment.setQuestionId(questionId);
         comment.setContent(commentPostDto.getContent());
 
         return comment;
@@ -35,7 +36,7 @@ public interface CommentMapper {
         comment.setAnswer(answer);
         comment.setCommentId(commentPatchDto.getCommentId());
         comment.setUserName(user.getUserName());
-        comment.setQuestionId(answer.getQuestion().getQuestionId());
+        comment.setQuestionId(commentPatchDto.getQuestionId());
         comment.setContent(commentPatchDto.getContent());
 
         return comment;

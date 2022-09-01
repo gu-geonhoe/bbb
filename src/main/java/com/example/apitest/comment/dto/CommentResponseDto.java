@@ -1,6 +1,7 @@
 package com.example.apitest.comment.dto;
 
 
+import com.example.apitest.Question.entitiy.Question;
 import com.example.apitest.User.entity.User;
 import com.example.apitest.answer.entitiy.Answer;
 import com.example.apitest.audit.Auditable;
@@ -25,10 +26,10 @@ public class CommentResponseDto extends Auditable {
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
 
-    public void setUserId(User user){this.userId = userId;}
+    public void setUserId(User user){this.userId = user.getUserId();}
 
-    public void setAnswerId(Answer answer){this.answerId = answerId;}
+    public void setAnswerId(Answer answer){this.answerId = answer.getAnswerId();}
 
-    public void setQuestionId(long questionId){this.questionId =questionId;}
+    public void setQuestionId(long questionId) {this.questionId = questionId;}
 
 }

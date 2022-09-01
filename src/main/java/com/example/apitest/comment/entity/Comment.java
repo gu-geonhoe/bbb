@@ -29,6 +29,7 @@ public class Comment extends Auditable {
     private User user;
     //N인 Answer가 연관 관계 주인 -> User의 외래키인 userId를 관리한다. -> DB에 반영이 된다.
 
+
     private String userName;
 
     public void setUser(User user){
@@ -39,6 +40,8 @@ public class Comment extends Auditable {
     @ManyToOne
     @JoinColumn(name = "ANSWER_ID")
     private Answer answer;
+
+
 
     public void setAnswer(Answer answer){this.answer = answer;}
 

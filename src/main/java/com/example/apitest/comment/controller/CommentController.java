@@ -62,7 +62,7 @@ public class CommentController {
         Answer answer = answerService.findVerifiedAnswerId(answerId);
 
 
-        Comment comment = commentService.crerteComment(mapper.commentPostDtoToComment(commentPostDto,user,answer));
+        Comment comment = commentService.crerteComment(mapper.commentPostDtoToComment(commentPostDto,user,answer,questionId));
         return new ResponseEntity<>(
                 new SingleResponseDto<>(mapper.commentToCommentResponseDto(comment)),
                 HttpStatus.CREATED);
@@ -81,7 +81,7 @@ public class CommentController {
     }
     //유저가 작성한 전체 댓글 반환
     @GetMapping("/cListByUserId/{user-id}")
-    public ResponseEntity getCommentsByUserId(@PathVariable("question-id")long userId,
+    public ResponseEntity getCommentsByUserId(@PathVariable("user-id")long userId,
                                                  @Positive @RequestParam int page){
         User user = userService.findVerifiedUser(userId);
         Page<Comment> pageComments = commentService.searchUserCommentList(user,page - 1, size);
@@ -108,7 +108,7 @@ public class CommentController {
                 HttpStatus.OK);
 
     }
-    //단일 답변 조회
+    //단일 댓글 조회
     @GetMapping("/{comment-id}")
     public ResponseEntity getAnswer(@PathVariable("comment-id") long commentId){
         Comment comment = commentService.findComment(commentId);

@@ -25,7 +25,7 @@ public class Tag {
     @Column(length = 100, nullable = false, unique = true)
     private String tagValue;
 
-    @Column(length = 500, nullable = false)
+    @Column(length = 800, nullable = false)
     private String tagInfo;
 
    @OneToMany(mappedBy = "tag")

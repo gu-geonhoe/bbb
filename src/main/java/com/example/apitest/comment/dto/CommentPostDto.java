@@ -10,7 +10,8 @@ import java.time.LocalDateTime;
 @Getter
 public class CommentPostDto {
 
-    @Positive
+
+
     private long userId;
 
     @NotBlank(message = "공백 불가")

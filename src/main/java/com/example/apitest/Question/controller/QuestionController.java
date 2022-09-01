@@ -124,7 +124,7 @@ public class QuestionController {
 
 
 
-    @PatchMapping("/edit/{question-id}")   // 기능 이상 확인 필요
+    @PatchMapping("/edit/{question-id}")   // question not found 문제
     public ResponseEntity patchQuestion(@PathVariable("question-id") long questionId, //@Positive 있었음
                                         @RequestParam long userId,  //@Positive 있었음
                                         @Valid @RequestBody QuestionPatchDto questionPatchDto){
