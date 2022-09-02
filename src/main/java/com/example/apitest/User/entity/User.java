@@ -22,7 +22,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "USERS")
+@Table(name = "users")
 public class User extends Auditable {
 
     @Id

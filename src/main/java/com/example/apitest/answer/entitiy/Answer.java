@@ -18,7 +18,7 @@ import java.util.List;
 @Getter
 @Setter
 @Entity
-@Table(name = "ANSWERS")
+@Table(name = "answers")
 public class Answer extends Auditable {
 
     @Id

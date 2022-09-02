@@ -14,7 +14,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "COMMENTS")
+@Table(name = "comments")
 public class Comment extends Auditable {
 
     @Id
