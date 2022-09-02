@@ -20,12 +20,12 @@ public class QuestionTag {
     private long questionTagId;
 
     @ManyToOne
-    @JoinColumn(name = "QUESTION_ID")
+    @JoinColumn(name = "question_id")
     @JsonIgnore // 무한 반복 피하기 위해 @JsonIgnore 어노테이션을 추가하여 직렬화에서 제외시키는 방법
     private Question question;
 
     @ManyToOne
-    @JoinColumn(name = "TAG_ID")
+    @JoinColumn(name = "tag_id")
     @JsonIgnore // 무한 반복 피하기 위해 @JsonIgnore 어노테이션을 추가하여 직렬화에서 제외시키는 방법
     private Tag tag;
 

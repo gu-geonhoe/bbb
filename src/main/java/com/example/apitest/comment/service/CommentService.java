@@ -49,6 +49,10 @@ public class CommentService {
     public void verifyComment(Comment comment) {
         //  회원 존재 여부 확인
         userService.findVerifiedUser(comment.getUser().getUserId());
+
+        //질문 존재 여부 확인
+        questionService.findQuestionByQuestionId(comment.getAnswer().getQuestion().getQuestionId());
+
         // 답변 존재 여부 확인
         questionService.findQuestionByQuestionId(comment.getAnswer().getAnswerId());
 
