@@ -26,8 +26,13 @@ public class QuestionPostDto {
     private String content;
 
     private List<QuestionTagDto> questionTags;
-
-    // 질문에 해당하는 tagValue(ex. JAVA)를 선택
+    /*
+    "questionTags": [
+                        {"tagId": 1,"tagValue" : "잘못된 태그명"},
+                        {"tagId": 2, "tagValue" : "잘못된 태그정보"}
+     ] <-- questionpostdto에서 입력 받고
+           questionMapper로 이동
+     */
 
 
   /*  public User getUser(){

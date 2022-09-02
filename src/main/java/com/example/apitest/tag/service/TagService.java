@@ -61,19 +61,32 @@ public class TagService {
                 tagRepository.findById(tagId);
         Tag findTag =
                 optionalTag.orElseThrow(() ->
-                        new BusinessLogicException(ExceptionCode.TAG_NOT_FOUND));
+                        new BusinessLogicException(ExceptionCode.TAG_ID_NOT_FOUND));
+
         return findTag;
     }
 
+    public Tag findVerifiedTagIdAndTagValue(long tagId, String tagValue) {
+        Optional<Tag> optionalTag =
+                tagRepository.findById(tagId);
+        Tag findTag =
+                optionalTag.orElseThrow(() ->
+                        new BusinessLogicException(ExceptionCode.TAG_ID_NOT_FOUND));
+        if(!tagValue.equals(findTag.getTagValue())){
+            throw new BusinessLogicException(ExceptionCode.TAG_VALUE_NOT_FOUND);
+        }
+        return findTag;
+    }
+/*
     public Tag findTagByTagValue(String tagValue) {
         Optional<Tag> optionalTag =
                 tagRepository.findByTagValue(tagValue);
         Tag findTag =
                 optionalTag.orElseThrow(() ->
-                        new BusinessLogicException(ExceptionCode.TAG_NOT_FOUND));
+                        new BusinessLogicException(ExceptionCode.TAG_VALUE_NOT_FOUND));
         return findTag;
     }
-
+*/
     /*public Page<Question> searchTagQuestionList(Tag tag, int page, int size) {
 
         Specification<Question> spec = Specification.where(QuestionSpecification.equalTag(tag));

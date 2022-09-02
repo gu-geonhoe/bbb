@@ -13,6 +13,8 @@ import com.example.apitest.comment.dto.CommentPostDto;
 import com.example.apitest.comment.entity.Comment;
 import com.example.apitest.comment.mapper.CommentMapper;
 import com.example.apitest.comment.service.CommentService;
+import com.example.apitest.exception.BusinessLogicException;
+import com.example.apitest.exception.ExceptionCode;
 import com.example.apitest.response.MultiResponseDto;
 import com.example.apitest.response.SingleResponseDto;
 import org.springframework.data.domain.Page;
@@ -124,7 +126,7 @@ public class CommentController {
                                       @PathVariable("comment-id") long commentId,
                                       @RequestParam long userId,
                                       @Valid @RequestBody CommentPatchDto commentPatchDto){
-        // 로그인한 user와 답변의 user가 같은지 확인하는 기능 추가해줘야 한다.
+
 
         commentPatchDto.setCommentId(commentId);
         commentPatchDto.setAnswerId(answerId);
@@ -135,12 +137,20 @@ public class CommentController {
         //유효한 회원 Id인지 확인
         User editor = userService.findVerifiedUser(commentPatchDto.getUserId());
 
-        //유효한 질문 ID인지 확인
+        //유효한 답글인지 확인
         Answer answer = answerService.findVerifiedAnswerId(commentPatchDto.getAnswerId());
+        Comment patchComment = mapper.commentPatchDtoToComment(commentPatchDto, editor, answer);
 
+        //원본 댓글
+        Comment selectedComment = commentService.findComment(commentId);
+
+        if(!commentService.checkUserAuth(editor.getUserId(), selectedComment)){
+            // 작성자와 요청한 유저Id가 같으면 true -> 다음 작업 수행
+            throw new BusinessLogicException(ExceptionCode.NO_ACCESS);
+        }
 
         Comment comment =
-                commentService.updateComment(mapper.commentPatchDtoToComment(commentPatchDto, editor, answer));
+                commentService.updateComment(patchComment);
 
         return new ResponseEntity<>(
                 new SingleResponseDto<>(mapper.commentToCommentResponseDto(comment))
@@ -153,6 +163,18 @@ public class CommentController {
                                        @PathVariable("answer-id") long answerId,
                                        @PathVariable("comment-id") long commentId,
                                        @RequestParam long userId){
+        //requestParam의 userId는 현재 로그인한 사용자의 userId
+        User loginUser = userService.findVerifiedUser(userId);  // 현재 로그인한 사용자
+        //삭제하려는 댓글
+        Comment selectedComment = commentService.findVerifiedCommentId(commentId);
+
+        // 댓글 작성자와 현재 로그인한 사용자가 같은지 확인
+        if(!commentService.checkUserAuth(loginUser.getUserId(), selectedComment)){
+            // 작성자와 요청한 유저Id가 같으면 true
+            throw new BusinessLogicException(ExceptionCode.NO_ACCESS);
+        }
+
+
         commentService.cancelComment(commentId);
 
         return new ResponseEntity<>(

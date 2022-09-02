@@ -52,3 +52,6 @@ ex) 회원 테이블에서 추천인이 누구인지 파악하기 위해 사용
 
  ./gradlew clean build 빌드 삭제
  ps -ef| grep jar 실행중인 자바 파일 프로세서
+
+
+ mysql delete -> delete from users where user_name = '1자바';

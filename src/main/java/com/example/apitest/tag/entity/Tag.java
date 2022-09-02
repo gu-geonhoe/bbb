@@ -25,7 +25,7 @@ public class Tag {
     @Column(length = 100, nullable = false, unique = true)
     private String tagValue;
 
-    @Column(length = 800, nullable = false)
+    @Column(length = 1000, nullable = false)
     private String tagInfo;
 
    @OneToMany(mappedBy = "tag")
@@ -33,6 +33,7 @@ public class Tag {
 
 
   // 연관관계 편의 메서드
+    //question에서 입력받은 tag 값의 tagId에 대한 검사 필요 !!
   public void addQuestionTag(QuestionTag questionTag){
       this.questionTags.add(questionTag);
       if(questionTag.getTag() != this) {

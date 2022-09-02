@@ -13,6 +13,7 @@ import com.example.apitest.User.service.UserService;
 import com.example.apitest.exception.BusinessLogicException;
 import com.example.apitest.exception.ExceptionCode;
 import com.example.apitest.tag.entity.Tag;
+import com.example.apitest.tag.repository.TagRepository;
 import com.example.apitest.tag.service.TagService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -30,6 +31,7 @@ public class QuestionService {
     private final TagService tagService;
     private final QuestionTagRepository questionTagRepository;
 
+    private final TagRepository tagRepository;
     //private final AnswerService answerService;
 
     //AnswerService 추가
@@ -38,12 +40,14 @@ public class QuestionService {
     public QuestionService(UserService userService,
                            QuestionRepository questionRepository,
                            TagService tagService,
-                           QuestionTagRepository questionTagRepository
+                           QuestionTagRepository questionTagRepository,
+                           TagRepository tagRepository
                            ){
         this.userService = userService;
         this.questionRepository = questionRepository;
         this.tagService = tagService;
         this.questionTagRepository = questionTagRepository;
+        this.tagRepository = tagRepository;
         //this.answerService = answerService;
 
     }
@@ -63,13 +67,19 @@ public class QuestionService {
         // 회원이 존재하는지 확인
         userService.findVerifiedUser(question.getUser().getUserId());
 
-        // 태그가 존재하는지 확인
+        // 태그가 존재하는지 확인   ( tagId로 체크하던 부분을 )
         question.getQuestionTags().stream()
                 .forEach(questionTag -> tagService.
                         findVerifiedTag(questionTag.getTag().getTagId()));
+
+        //tagValue로 검사하도록 변경  --> 입력 받은 tagValue가 없다면 tag value not found가 나올것
+        /*question.getQuestionTags().stream()
+                .forEach(questionTag -> tagService.
+                        findVerifiedTagIdAndTagValue(questionTag.getTag().getTagId(),questionTag.getTag().getTagValue()));*/
     }
 
    public Question updateQuestion(Question question) {
+
         Question findQuestion = findVerifiedQuestionId(question.getQuestionId());
         //ofNullable은 일반 객체뿐만 아니라 null값까지 입력으로 받을 수 있다
        //isPresent 메서드로 현재 Optional이 보유한 값이 null인지 아닌지를 확인할 수 있습니다.
@@ -154,6 +164,13 @@ public class QuestionService {
     }
 
 
+    public boolean checkUserAuth(long userId,Question question){
+        boolean result = false;
 
+        if(userId == question.getUser().getUserId()){
+            result = true;
+        }
+        return result;
+    }
 
 }

@@ -11,6 +11,8 @@ import com.example.apitest.answer.dto.AnswerPostDto;
 import com.example.apitest.answer.entitiy.Answer;
 import com.example.apitest.answer.mapper.AnswerMapper;
 import com.example.apitest.answer.service.AnswerService;
+import com.example.apitest.exception.BusinessLogicException;
+import com.example.apitest.exception.ExceptionCode;
 import com.example.apitest.response.MultiResponseDto;
 import com.example.apitest.response.SingleResponseDto;
 import org.springframework.data.domain.Page;
@@ -64,14 +66,14 @@ public class AnswerController {
         Page<Answer> pageAnswers = answerService.findAnswers(page - 1, size);
         List<Answer> answers = pageAnswers.getContent();
 
-        // homework solution 추가
+
         return new ResponseEntity<>(
                 new MultiResponseDto<>(mapper.answersToAnswerResponseDtos(answers), pageAnswers),
                 HttpStatus.OK);
 
     }
 
-    // 질문에 달린 전체 답변 반환  -> 500 error
+    // 질문에 달린 전체 답변 반환
     @GetMapping("/aListByQuestionId/{question-id}")
     public ResponseEntity getAnswersByQuestionId(@PathVariable("question-id")long questionId,
                                                  @Positive @RequestParam int page){
@@ -118,7 +120,7 @@ public class AnswerController {
                                       @RequestParam long userId,
                                       @Valid @RequestBody AnswerPatchDto answerPatchDto){
 
-        // 로그인한 user와 답변의 user가 같은지 확인하는 기능 추가해줘야 한다.
+
 
         answerPatchDto.setAnswerId(answerId);
         answerPatchDto.setUserId(userId);
@@ -127,12 +129,20 @@ public class AnswerController {
 
         //유효한 회원 Id인지 확인
         User editor = userService.findVerifiedUser(answerPatchDto.getUserId());
-
         //유효한 질문 ID인지 확인
         Question question = questionService.findQuestionByQuestionId(answerPatchDto.getQuestionId());
+        Answer patchAnswer = mapper.answerPatchDtoToAnswer(answerPatchDto, editor, question);
 
+
+        //원본 답변
+        Answer selectedAnswer = answerService.findVerifiedAnswerId(answerId);
+
+        if(!answerService.checkUserAuth(editor.getUserId(), selectedAnswer)){
+            // 작성자와 요청한 유저Id가 같으면 true -> 다음 작업 수행
+            throw new BusinessLogicException(ExceptionCode.NO_ACCESS);
+        }
         Answer answer =
-                answerService.updateAnswer(mapper.answerPatchDtoToAnswer(answerPatchDto, editor, question));
+                answerService.updateAnswer(patchAnswer);
 
         return new ResponseEntity<>(
                 new SingleResponseDto<>(mapper.answerToAnswerResponseDto(answer))
@@ -140,9 +150,21 @@ public class AnswerController {
     }
     // 답변 삭제
     @DeleteMapping("/delete/{answer-id}")
-    public ResponseEntity cancelAnswer(@PathVariable("answer-id") @Positive long answerId){
-        answerService.cancelAnswer(answerId);
+    public ResponseEntity cancelAnswer(@PathVariable("answer-id") @Positive long answerId,
+                                       @RequestParam @Positive long userId  ){
 
+        //requestParam의 userId는 현재 로그인한 사용자의 userId
+        User loginUser = userService.findVerifiedUser(userId);  // 현재 로그인한 사용자
+        //삭제하려는 답변
+        Answer selectedAnswer = answerService.findVerifiedAnswerId(answerId);
+
+        // 답변 작성자와 현재 로그인한 사용자가 같은지 확인
+        if(!answerService.checkUserAuth(loginUser.getUserId(), selectedAnswer)){
+            // 작성자와 요청한 유저Id가 같으면 true
+            throw new BusinessLogicException(ExceptionCode.NO_ACCESS);
+        }
+
+        answerService.cancelAnswer(answerId);
         return new ResponseEntity<>(
                 "답변 삭제 완료"
                 , HttpStatus.OK);

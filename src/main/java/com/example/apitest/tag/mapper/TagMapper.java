@@ -1,6 +1,8 @@
 package com.example.apitest.tag.mapper;
 
+import com.example.apitest.Question.dto.QuestionTagResponseDto;
 import com.example.apitest.Question.entitiy.Question;
+import com.example.apitest.Question.entitiy.QuestionTag;
 import com.example.apitest.tag.dto.TagPatchDto;
 import com.example.apitest.tag.dto.TagPostDto;
 import com.example.apitest.tag.dto.TagResponseDto;
@@ -9,6 +11,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Mapper(componentModel = "spring")
 public interface TagMapper {

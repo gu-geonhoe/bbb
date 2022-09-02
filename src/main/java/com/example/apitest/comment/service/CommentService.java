@@ -112,6 +112,14 @@ public class CommentService {
         commentRepository.delete(findComment);
     }
 
+    public boolean checkUserAuth(long userId,Comment comment){
+        boolean result = false;
+
+        if(userId == comment.getUser().getUserId()){
+            result = true;
+        }
+        return result;
+    }
 
 
 

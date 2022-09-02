@@ -52,7 +52,7 @@ public class Answer extends Auditable {
 
     // answer (1 ) : comment(n)
 
-    @OneToMany(mappedBy = "answer", cascade = CascadeType.PERSIST) //REMOVE  PERSIST ALL
+    @OneToMany(mappedBy = "answer", cascade = CascadeType.ALL) //REMOVE  PERSIST ALL
     private List<Comment> comments = new ArrayList<>();
 
     @Column(length = 500, nullable = false)

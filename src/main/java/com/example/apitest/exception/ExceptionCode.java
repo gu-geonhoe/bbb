@@ -8,9 +8,11 @@ public enum ExceptionCode {
     ANSWER_NOT_FOUND(404, "Answer not found"),
     ANSWER_ID_EXISTS(409, "Answer Id Already exists"),
     QUESTION_NOT_FOUND(404, "Question not found"),
-    TAG_NOT_FOUND(404, "Tag not found"),
+    TAG_ID_NOT_FOUND(404, "Tag ID not found"),
+    TAG_VALUE_NOT_FOUND(404, "Tag Value not found"),
+    COMMENT_NOT_FOUND(404,"Comment not found"),
 
-    COMMENT_NOT_FOUND(404,"Comment not found");
+    NO_ACCESS(404," You don't have access to the requested object");
 
   /*  CANNOT_CHANGE_ORDER(403, "Order can not change"),
     NOT_IMPLEMENTATION(501, "Not Implementation"),

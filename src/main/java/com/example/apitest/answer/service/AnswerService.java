@@ -100,4 +100,13 @@ public class AnswerService {
 
         answerRepository.delete(findAnswer);
     }
+
+    public boolean checkUserAuth(long userId,Answer answer){
+        boolean result = false;
+
+        if(userId == answer.getUser().getUserId()){
+            result = true;
+        }
+        return result;
+    }
 }

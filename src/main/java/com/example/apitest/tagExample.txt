@@ -1,12 +1,13 @@
+INSERT INTO TAGS (TAG_VALUE, TAG_INFO) VALUES ('html', 'HTML (HyperText Markup Language) is the markup language for creating web pages and other information to be displayed in a web browser.');
+
 INSERT INTO TAGS (TAG_VALUE, TAG_INFO) VALUES ('javascript','For questions regarding programming in ECMAScript and its various dialects/implementations.');
 
 INSERT INTO TAGS (TAG_VALUE, TAG_INFO) VALUES ('python','Python is a multi-paradigm, dynamically typed, multi-purpose programming language.');
 
 INSERT INTO TAGS (TAG_VALUE, TAG_INFO) VALUES ('java','Java is a high-level object oriented programming language.');
 
-INSERT INTO TAGS (TAG_VALUE, TAG_INFO) VALUES ('c#','C# is a high level, statically typed, multi-paradigm programming language developed by Microsoft.'');
+INSERT INTO TAGS (TAG_VALUE, TAG_INFO) VALUES ('c#','C# is a high level, statically typed, multi-paradigm programming language developed by Microsoft.');
 
-INSERT INTO TAGS (TAG_VALUE, TAG_INFO) VALUES ('html', 'HTML (HyperText Markup Language) is the markup language for creating web pages and other information to be displayed in a web browser.');
 ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------위가 입력 가능 / 아래 입력 X
 
 

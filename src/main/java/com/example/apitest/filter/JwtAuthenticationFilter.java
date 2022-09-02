@@ -56,6 +56,4 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
             response.getWriter().println(jsonString);
     }
 
-
-
 }

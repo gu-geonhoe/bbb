@@ -14,9 +14,6 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface CommentMapper {
 
-
-
-
     //answerId 세팅 필요할지 여부 확인
     default Comment commentPostDtoToComment(CommentPostDto commentPostDto, User user, Answer answer,long questionId){
         Comment comment = new Comment();
