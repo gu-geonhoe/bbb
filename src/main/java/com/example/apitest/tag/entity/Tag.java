@@ -28,7 +28,7 @@ public class Tag {
     @Column(length = 800, nullable = false)
     private String tagInfo;
 
-   @OneToMany(mappedBy = "tags")
+   @OneToMany(mappedBy = "tag")
    private List<QuestionTag> questionTags = new ArrayList<>();
 
 

@@ -67,7 +67,7 @@ public class Question extends Auditable {
     }
 
     //Tag와 연결 -> Question(1) : QuestionTag(N) : Tag(1)
-    @OneToMany(mappedBy = "questions",cascade = CascadeType.ALL) //REMOVE  PERSIST ALL
+    @OneToMany(mappedBy = "question",cascade = CascadeType.ALL) //REMOVE  PERSIST ALL
     private List<QuestionTag> questionTags = new ArrayList<>();
 
     /*
@@ -82,7 +82,7 @@ public class Question extends Auditable {
     }
 
     // Answer와 연결 -> Question (1) : Answer(N)
-    @OneToMany(mappedBy = "questions",cascade = CascadeType.REMOVE)
+    @OneToMany(mappedBy = "question",cascade = CascadeType.REMOVE)
     private List<Answer> answers = new ArrayList<>();
     // answers는 연관 관계의 주인이 아니므로 mappedBy로 Answer 엔티티에 있는 question이 연관 관계의 주인이라고 선언해 알려준다.
     //   - 순수한 객체에서만 관리되도록 한다.
