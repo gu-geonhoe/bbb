@@ -27,6 +27,11 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation 'org.mapstruct:mapstruct:1.4.2.Final'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	testImplementation 'org.springframework.security:spring-security-test'
+	implementation 'com.auth0:java-jwt:3.19.2'
+	implementation 'com.google.code.gson:gson:2.8.7'
+
 	annotationProcessor 'org.mapstruct:mapstruct-processor:1.4.2.Final'
 }
 

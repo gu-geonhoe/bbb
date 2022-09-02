@@ -16,6 +16,7 @@ import com.example.apitest.tag.service.TagService;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -124,7 +125,8 @@ public class QuestionController {
 
 
 
-    @PatchMapping("/edit/{question-id}")   // question not found 문제
+    @PatchMapping("/edit/{question-id}")
+    // question not found 문제
     public ResponseEntity patchQuestion(@PathVariable("question-id") long questionId, //@Positive 있었음
                                         @RequestParam long userId,  //@Positive 있었음
                                         @Valid @RequestBody QuestionPatchDto questionPatchDto){
