@@ -39,11 +39,11 @@ public class SecurityConfig {
                 .apply(new CustomDsl())
                 .and()
                 .authorizeRequests()
-                .antMatchers("/question/write/**").authenticated()
+//                .antMatchers("/question/write/**").authenticated()
 //                .antMatchers("/user/mypage/**").authenticated()
 //                .antMatchers("/user/delete/**").authenticated()
 //                .antMatchers("/question/edit/**").authenticated()
-                .antMatchers("/question/delete/**").authenticated()
+//                .antMatchers("/question/delete/**").authenticated()
 //                .antMatchers("/comment/postcomment/**").authenticated()
 //                .antMatchers("/question/delete/**").authenticated()
 
