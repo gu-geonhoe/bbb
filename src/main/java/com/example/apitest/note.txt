@@ -49,3 +49,6 @@ ex) 회원 테이블에서 추천인이 누구인지 파악하기 위해 사용
 
             404 Not Found
               클라이언트가 요청한 자원이 존재하지 않다.
+
+ ./gradlew clean build 빌드 삭제
+ ps -ef| grep jar 실행중인 자바 파일 프로세서
