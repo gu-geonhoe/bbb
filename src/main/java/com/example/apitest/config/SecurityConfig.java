@@ -2,7 +2,7 @@ package com.example.apitest.config;
 
 
 import com.example.apitest.User.repository.UserRepository;
-import com.example.apitest.filter.JwtAuthenticationFilter;
+import com.example.apitest.filter.successFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -30,20 +30,18 @@ public class SecurityConfig {
 //        http.addFilterBefore(new FirstFilter(), BasicAuthenticationFilter.class);
         http.csrf().disable();
         http.headers().frameOptions().disable();
-        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
-                .addFilter(corsFilter)
+        http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.ALWAYS).maximumSessions(1);
+        http.addFilter(corsFilter)
                .formLogin().disable()
-//                .formLogin().loginPage("/login").permitAll().and()
                 .httpBasic().disable()
                 .apply(new CustomDsl())
                 .and()
                 .authorizeRequests()
-//                .antMatchers("/question/write/**").authenticated()
+               .antMatchers("/question/write/**").authenticated()
 //                .antMatchers("/user/mypage/**").authenticated()
-//                .antMatchers("/user/delete/**").authenticated()
-//                .antMatchers("/question/edit/**").authenticated()
-//                .antMatchers("/question/delete/**").authenticated()
+               .antMatchers("/user/delete/**").authenticated()
+               .antMatchers("/question/edit/**").authenticated()
+                .antMatchers("/question/delete/**").authenticated()
 //                .antMatchers("/comment/postcomment/**").authenticated()
 //                .antMatchers("/question/delete/**").authenticated()
 
@@ -59,7 +57,7 @@ public class SecurityConfig {
             AuthenticationManager authenticationManager = builder.getSharedObject(AuthenticationManager.class);
             builder
                     .addFilter(corsFilter)
-                    .addFilter(new JwtAuthenticationFilter(authenticationManager));
+                    .addFilter(new successFilter(authenticationManager));
 
         }
     }

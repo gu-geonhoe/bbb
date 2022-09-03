@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RequiredArgsConstructor
-public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+public class successFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
 
@@ -50,6 +50,7 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
         Map<String,Object> map = new HashMap<>();
         long a = principalDetails.getUser().getUserId();
         map.put("userId" , a);
+        map.put("msg","success");
         Gson gson = new Gson();
         String jsonString = gson.toJson(map);
         System.out.println(jsonString);
