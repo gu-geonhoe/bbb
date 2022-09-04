@@ -138,10 +138,12 @@ public class QuestionController {
         User editor = userService.findVerifiedUser(questionPatchDto.getUserId());
         Question patchQuestion     = mapper.questionPatchDtoToQuestion(questionPatchDto, editor);
 
+
         //유효한 태그Id인지 확인
         patchQuestion.getQuestionTags().stream()
                 .forEach(questionTag -> tagService.
                         findVerifiedTag(questionTag.getTag().getTagId()));
+
 
         //tagId와 tagValue를 요청으로 받는다면 id에 대한 검사, id와 tagValue 일치 여부 검사가 필요
         //유효한 태그Id와 태그명인지 확인
@@ -155,7 +157,6 @@ public class QuestionController {
         Question selectedQuestion = questionService.findQuestionByQuestionId(questionId);
 
         // 글 작성자와 편집자가 같은지 확인
-
         if(!questionService.checkUserAuth(editor.getUserId(), selectedQuestion)){
             // 작성자와 요청한 유저Id가 같으면 true
             throw new BusinessLogicException(ExceptionCode.NO_ACCESS);
@@ -163,7 +164,7 @@ public class QuestionController {
 
 
         Question question =
-                questionService.updateQuestion(patchQuestion);
+                questionService.updateQuestion(patchQuestion,selectedQuestion);
 
         return new ResponseEntity<>(
                 new SingleResponseDto<>(mapper.questionToQuestionResponseDto(question))

@@ -34,7 +34,7 @@ public class TagService {
 
         Optional.ofNullable(tag.getTagValue())
                 .ifPresent(tagValue -> findTag.setTagValue(tagValue));
-        Optional.ofNullable(tag.getTagValue())
+        Optional.ofNullable(tag.getTagInfo())
                 .ifPresent(tagInfo -> findTag.setTagInfo(tagInfo));
 
         return tagRepository.save(findTag);

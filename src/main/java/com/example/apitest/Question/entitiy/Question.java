@@ -74,7 +74,7 @@ public class Question extends Auditable {
     cascade = CascadeType.PERSIST ???
      */
 
-    public void addQuestionTag(QuestionTag questionTag) {
+    public void setQuestionTag(QuestionTag questionTag) {
         this.questionTags.add(questionTag);
         if(questionTag.getQuestion() != this){
             questionTag.addQuestion(this);

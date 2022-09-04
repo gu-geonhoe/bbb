@@ -6,6 +6,7 @@ import com.example.apitest.Question.entitiy.QuestionTag;
 import com.example.apitest.Question.repository.QuestionRepository;
 
 import com.example.apitest.Question.repository.QuestionTagRepository;
+import com.example.apitest.answer.entitiy.Answer;
 import com.example.apitest.specification.QuestionSpecification;
 import com.example.apitest.specification.QuestionTagSpecification;
 import com.example.apitest.User.entity.User;
@@ -20,15 +21,22 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
+@Transactional
 @Service
 public class QuestionService {
 
     private final UserService userService;
     private final QuestionRepository questionRepository;
     private final TagService tagService;
+
+    private final QuestionTagService questionTagService;
     private final QuestionTagRepository questionTagRepository;
 
     private final TagRepository tagRepository;
@@ -41,6 +49,7 @@ public class QuestionService {
                            QuestionRepository questionRepository,
                            TagService tagService,
                            QuestionTagRepository questionTagRepository,
+                           QuestionTagService questionTagService,
                            TagRepository tagRepository
                            ){
         this.userService = userService;
@@ -48,6 +57,7 @@ public class QuestionService {
         this.tagService = tagService;
         this.questionTagRepository = questionTagRepository;
         this.tagRepository = tagRepository;
+        this.questionTagService = questionTagService;
         //this.answerService = answerService;
 
     }
@@ -78,9 +88,15 @@ public class QuestionService {
                         findVerifiedTagIdAndTagValue(questionTag.getTag().getTagId(),questionTag.getTag().getTagValue()));*/
     }
 
-   public Question updateQuestion(Question question) {
+   public Question updateQuestion(Question question, Question question2) {
+        //넘겨받는 question은 patchdto가 entity 변환된 것, question2는 질문 원본
 
         Question findQuestion = findVerifiedQuestionId(question.getQuestionId());
+
+       //N : N에서 중간 테이블인 QuestionTag의 값을 pacth된 질문의 questionTags 값으로 갱신해준다.
+       //원본 질문의 questiontag 리스트
+       resetQuestionTags(question2);
+
         //ofNullable은 일반 객체뿐만 아니라 null값까지 입력으로 받을 수 있다
        //isPresent 메서드로 현재 Optional이 보유한 값이 null인지 아닌지를 확인할 수 있습니다.
        //출처: https://engkimbs.tistory.com/646 [새로비:티스토리]
@@ -94,12 +110,32 @@ public class QuestionService {
        //질문 내용 변경
        Optional.ofNullable(question.getContent())
                .ifPresent(content -> findQuestion.setContent(content));
+       //수정된 질문에 기존 질문과 중복된 태그 값이 있는지 확인
+       // 기존 질문과 중복된 ㅌ
        //태그 변경 추가
        Optional.ofNullable(question.getQuestionTags())
                .ifPresent(questionTags -> findQuestion.setQuestionTags(questionTags));
 
         return saveQuestion(findQuestion);
    }
+
+   public void resetQuestionTags(Question question){
+       //questiontagId마다 questionId와 tagID를 갖는다.
+       // questionId에 해당하는 모든 questionTag Table의 데이터를 찾는다.
+       questionTagService.resetQuestionTagByQuestion(question);
+
+/*        for(int i = 0 ; i<question2.getQuestionTags().size();i++){
+            resetQuestionTagByQuestion(question2)
+            QuestionTag questionTag = questionTagService.findQuestionTagByQuestion(question2);
+            questionTagRepository.delete();
+            questionTagService.updateQuestionTag(questionTag);
+        }*/
+        /*
+       Specification<QuestionTag> spec = Specification.where(QuestionTagSpecification.equalQuestionId(question.getQuestionId()));
+       List<QuestionTag> findQuestiontagList = new ArrayList<QuestionTag>();
+       findQuestiontagList = questionTagRepository.findAll(spec);*/
+   }
+
 
     private Question findVerifiedQuestionId(long questionId) {
         Optional<Question> optionalQuestion = questionRepository.findById(questionId);

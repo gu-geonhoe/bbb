@@ -20,4 +20,13 @@ public class QuestionTagSpecification {
         };
 
     }
+
+    public static Specification<QuestionTag> equalQuestion(Question question) {
+        return new Specification<QuestionTag>() {
+            @Override
+            public Predicate toPredicate(Root<QuestionTag> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+                return criteriaBuilder.equal(root.get("question"),question);
+            }
+        };
+    }
 }

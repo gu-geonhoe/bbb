@@ -12,6 +12,7 @@ public enum ExceptionCode {
     TAG_VALUE_NOT_FOUND(404, "Tag Value not found"),
     COMMENT_NOT_FOUND(404,"Comment not found"),
 
+    QUESTION_TAG_NOT_FOUND(404,"Question Tag not found"),
     NO_ACCESS(404," You don't have access to the requested object");
 
   /*  CANNOT_CHANGE_ORDER(403, "Order can not change"),
